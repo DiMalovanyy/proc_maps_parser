@@ -17,7 +17,7 @@ int parse_line(const char* line, proc_maps_ent_t* out) {
 	sscanf(line, "%lx-%lx %4c %lx %hu:%hu %lu %s",
 		   (long unsigned*)&out->addr_start,
 		   (long unsigned*)&out->addr_end,
-			flags, &out->offset, &out->dev_major, &out->dev_minor, &out->inode, out->pathname);
+			flags, &out->offset, &out->dev_major, &out->dev_minor, &out->inode, out->executable_path);
 	out->properties = permission_flags_to_bitmap(flags);	
 	return 0;
 }
@@ -52,8 +52,8 @@ int delete_proc_maps_file_interator(proc_maps_file_iterator_t* it) {
 		return rc; /* Leak: Iterator will not be deleted. Should abort execution while this error occured */
 	}
 	if (it->current_ent) {
-		if (it->current_ent->pathname) {
-			free(it->current_ent->pathname);
+		if (it->current_ent->executable_path) {
+			free(it->current_ent->executable_path);
 		}
 		free(it->current_ent);
 	}
@@ -67,7 +67,7 @@ proc_maps_ent_t* next_proc_maps(proc_maps_file_iterator_t* it) {
 	size_t line_buf_size = 0;
 	if (it->current_ent == NULL) {
 		it->current_ent = malloc(sizeof(proc_maps_ent_t));
-		it->current_ent->pathname = malloc(sizeof(char)*PATH_MAX);
+		it->current_ent->executable_path = malloc(sizeof(char)*PATH_MAX);
 	}
 	
 	if ((bytes_read = getline(&line_buf, &line_buf_size, it->proc_maps_file)) <= 0) {
@@ -93,7 +93,7 @@ void print_proc_maps_ent(const proc_maps_ent_t* ent, FILE* out) {
 	fprintf(out, " %lx", ent->offset);
 	fprintf(out, " %x:%x", (int)ent->dev_major, (int)ent->dev_minor);
 	fprintf(out, " %lu", ent->inode);
-	fprintf(out, " %s", ent->pathname);
+	fprintf(out, " %s", ent->executable_path);
 
 	fprintf(out, "\n");
 	fflush(out);

@@ -18,7 +18,7 @@ typedef struct proc_maps_ent {
 	unsigned short dev_minor;
 	unsigned short dev_major;
 	unsigned long int inode; /* ext4 use 2^32 inode */
-	char* pathname;
+	char* executable_path;
 } proc_maps_ent_t;
 
 void print_proc_maps_ent(const proc_maps_ent_t* ent, FILE* out);
