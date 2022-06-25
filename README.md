@@ -6,6 +6,9 @@ Lightweight Stream Oriented /proc/pid/maps parser
 
 Then you can link static library to your project and include *<proc_maps_parser_path>/include* headers
 
+There is also Ptyhon3 version in *src/python*
+**Note:** Python version is not stream oriented. It just parse all file and store it in memory
+
 ## Usage
 
 This library is very simple in usage. It will iterate over /proc/<pid>/file and store each entity in *struct proc_maps_ent*
@@ -56,12 +59,18 @@ For loop
   
 Discover entitites properties
 ```
-  proc_maps_ent_t* ent = ...;
-  if ((ent->properties & PROC_MAPS_READ) && 
-      (ent->properties & PROC_MAPS_EXECUTE) &&
-      (ent->properties & PROC_MAPS_PRIVATE)) {
-      /* We found .text section :) */
-  }
+        proc_maps_ent_t* ent = ...;
+        if ((ent->properties & PROC_MAPS_READ) && 
+            (ent->properties & PROC_MAPS_EXECUTE) &&
+            (ent->properties & PROC_MAPS_PRIVATE)) {
+            /* We found .text section :) */
+        }
+```
+Python
+```
+        records = proc_maps_record.parse(<some_awesome_pid>)
+        for record in records:
+            <do some cool stuff with record>
 ```
   
   
