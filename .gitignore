@@ -1,0 +1,6 @@
+compile_commands.json
+**/*.a
+**/*.o
+proc_maps_parser_test
+libproc_maps_parser.a
+
