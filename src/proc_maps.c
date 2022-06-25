@@ -2,11 +2,8 @@
 #include <stdio.h>
 #include <limits.h>
 
-//static const char regexp = 
-
 proc_maps_properties_bitmap_t permission_flags_to_bitmap(const char* flags) {
 	proc_maps_properties_bitmap_t res = 0;
-	//printf("Flags %4c\n", flags[0], flags[1], flags[2]);
 	if (flags[0] == 'r') res |= PROC_MAPS_READ;
 	if (flags[1] == 'w') res |= PROC_MAPS_WRITE;
 	if (flags[2] == 'x') res |= PROC_MAPS_EXECUTE;
