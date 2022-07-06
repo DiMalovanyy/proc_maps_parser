@@ -1,4 +1,4 @@
-# proc/<pid>/maps parser
+# proc/pid/maps parser
 Lightweight Stream Oriented /proc/pid/maps parser
 
 ## Build
